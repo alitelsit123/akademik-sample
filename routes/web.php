@@ -17,9 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function() {
 
   Route::get('/', function () {
-    if (auth()->user()->level == 'admin') {
-      return redirect('admin');
-    }
+    return redirect('login');
   });
 
   Route::prefix('admin')->group(function() {
@@ -35,6 +33,7 @@ Route::middleware('auth')->group(function() {
     Route::prefix('class')->group(function() {
         Route::get('/', [Admin\ClassController::class,'index']);
         Route::post('/store', [Admin\ClassController::class,'store']);
+        Route::post('/store_teacher', [Admin\ClassController::class,'storeTeacher']);
         Route::post('/update', [Admin\ClassController::class,'update']);
         Route::get('/destroy/{id}', [Admin\ClassController::class,'destroy']);
     });
@@ -97,6 +96,6 @@ Route::middleware('auth')->group(function() {
 
 });
 
-Route::get('login', [LoginController::class,'index'])->name('login');
+Route::get('login', [LoginController::class,'index'])->name('login')->middleware(['guest']);
 Route::post('login-action', [LoginController::class,'login']);
 Route::get('logout', [LoginController::class,'logout'])->name('logout');

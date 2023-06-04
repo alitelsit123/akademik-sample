@@ -168,8 +168,8 @@
         @endforeach
       </tbody>
     </table>
-    </div>
     {{$mapels->links()}}
+    </div>
   </div>
 
   <script>

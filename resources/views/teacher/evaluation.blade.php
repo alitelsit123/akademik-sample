@@ -4,10 +4,17 @@
   @php
   $school = \App\Models\School::first();
   $mapels = auth()->user()->teaches;
-  $students = \App\Models\User::whereLevel('student')->whereDoesntHave('studentEvaluationsCurrentSession',function($query) use ($mapels,$school) {
-    $query->whereIn('mapels.id', $mapels->pluck('id')->toArray());
-  })->paginate(10);
+  $myClassIds = auth()->user()->classes()->wherePivotIn('mapel_id', $mapels->pluck('id')->toArray())->pluck('classes.id')->toArray();
+  $students = \App\Models\User::whereLevel('student')->whereHas('studentInformation', function($query) use ($myClassIds) {
+    $query->whereIn('class_id',$myClassIds);
+  })->withCount([
+    'studentEvaluationsCurrentSession' => function($query) use ($mapels) {
+      $query->whereIn('mapels.id', auth()->user()->classMapels->pluck('id')->toArray());
+    }
+  ])->having('student_evaluations_current_session_count', '<', auth()->user()->classMapels->groupBy('id')->count())->paginate(10);
   $classes = \App\Models\Classes::get();
+  // dd(auth()->user()->classMapels->groupBy('id'));
+  // dd(auth()->user()->classMapels()->count());
   @endphp
 
 
@@ -59,7 +66,7 @@
       <tbody>
         @foreach ($students as $row)
         @php
-        // dd($row->studentEvaluations);
+        $myMapelsOnCurrentClass = auth()->user()->classMapels()->wherePivot('class_id', $row->getInformation('studentInformation', 'class_id'))->get();
         @endphp
         <tr>
           <th scope="row">#</th>
@@ -78,17 +85,20 @@
                   <form action="{{url('teacher/evaluation/store')}}" method="post">
                     <input type="hidden" name="id" value="{{$row->id}}" />
                     <div class="modal-body row">
-                      @foreach ($mapels as $key => $rowMapel)
+                      @foreach ($myMapelsOnCurrentClass as $key => $rowMapel)
+                      @php
+                      $evaluationValueOnCurrentSeason = $row->studentEvaluationsCurrentSession()->where('mapels.id', $rowMapel->id)->first();
+                      @endphp
                       <input type="hidden" name="{{$rowMapel->id}}_semester" value="{{$school->semester}}" />
                       <input type="hidden" name="{{$rowMapel->id}}_school_year" value="{{$school->school_year_from.'/'.$school->school_year_to}}" />
-                      <div class="form-group @if($mapels->count() > 0 && $mapels->count() % 2 != 0 && $mapels->count() - 1 == $key) col-12 @else col-6 @endif">
+                      <div class="form-group @if($myMapelsOnCurrentClass->count() > 0 && $myMapelsOnCurrentClass->count() % 2 != 0 && $myMapelsOnCurrentClass->count() - 1 == $key) col-12 @else col-6 @endif">
                         <label for="">{{$rowMapel->name}}</label>
                         <div><small>Nilai Angka</small></div>
-                        <input type="integer" name="{{$rowMapel->id}}_number" class="form-control form-control-sm" required />
+                        <input type="integer" name="{{$rowMapel->id}}_number" value="{{$evaluationValueOnCurrentSeason ? $evaluationValueOnCurrentSeason->pivot->number:''}}" class="form-control form-control-sm" required />
                         <div><small>Predikat</small></div>
-                        <input type="text" name="{{$rowMapel->id}}_predicate" class="form-control form-control-sm" required />
+                        <input type="text" name="{{$rowMapel->id}}_predicate" value="{{$evaluationValueOnCurrentSeason ? $evaluationValueOnCurrentSeason->pivot->predicate:''}}" class="form-control form-control-sm" required />
                         <div><small>Deskripsi</small></div>
-                        <textarea name="{{$rowMapel->id}}_description" id="" rows="2" class="form-control"></textarea>
+                        <textarea name="{{$rowMapel->id}}_description" id="" rows="2" class="form-control">{{$evaluationValueOnCurrentSeason ? $evaluationValueOnCurrentSeason->pivot->description:''}}</textarea>
                       </div>
                       @endforeach
                     </div>

@@ -95,6 +95,12 @@ class User extends Authenticatable
   public function performances() {
     return $this->hasMany('App\Models\Performance','student_id');
   }
+  public function classes() {
+    return $this->belongsToMany('App\Models\Classes', 'class_teachers', 'teacher_id', 'class_id')->withPivot(['mapel_id']);
+  }
+  public function classMapels() {
+    return $this->belongsToMany('App\Models\Mapel', 'class_teachers', 'teacher_id', 'mapel_id')->withPivot(['class_id']);
+  }
 
   public function getInformation($name, $attr) {
     $info = $this->{$name};

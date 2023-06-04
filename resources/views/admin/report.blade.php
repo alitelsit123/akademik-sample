@@ -68,7 +68,9 @@
         @php
         $key = 0;
         $totalMapel = \App\Models\Mapel::count();
-        $evaluationCompleted = ($row->studentEvaluationsCurrentSession()->count() >= $totalMapel);
+        $evaluationCurrentSeesion = $row->studentEvaluationsCurrentSession->count();
+        $evaluationUnfinish = ($evaluationCurrentSeesion < $totalMapel && $evaluationCurrentSeesion > 0);
+        $evaluationCompleted = ($evaluationCurrentSeesion >= $totalMapel);
         $evaluationSubmitted = ($row->getInformation('studentInformation', 'rapor_ready') != null);
         @endphp
         <tr class="@if(!$evaluationCompleted) table-danger @elseif($evaluationSubmitted) table-success @else table-warning @endif">
@@ -82,6 +84,8 @@
             <a href="{{url('admin/report/report_preview/'.$row->id)}}" target="_blank" class="btn btn-xs btn-success">Cetak Rapor</a>
             @elseif($evaluationCompleted)
             <small>Belum di Validasi</small>
+            @elseif($evaluationUnfinish)
+            <small>Belum selesai diinput</small>
             @else
             <small>Belum input</small>
             @endif

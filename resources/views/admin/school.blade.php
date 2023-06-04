@@ -60,7 +60,11 @@
       @endforeach
       <div class="form-group col-6">
         <label for="">Semester</label>
-        <input type="text" name="semester" value="{{$school->semester}}" class="form-control" id="" aria-describedby="emailHelp" placeholder="Masukkan Semester">
+        <select class="form-control" name="semester" id="">
+          <option value="">-- Pilih Semester --</option>
+          <option value="Ganjil" @if($school->semester == 'Ganjil') selected @endif>Ganjil</option>
+          <option value="Genap" @if($school->semester == 'Genap') selected @endif>Genap</option>
+        </select>
       </div>
       <div class="form-group col-6">
         <label for="">Tahun Ajaran</label>

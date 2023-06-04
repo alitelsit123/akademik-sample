@@ -8,7 +8,7 @@
 </div>
 <div class="form-group">
   <label for="">Program Study / Jenjang</label>
-  <input type="text" name="level" value="{{isset($row) ? $row->getInformation('personalInformation','level'):''}}" class="form-control form-control-sm" />
+  <input type="text" name="level" value="{{isset($row) ? $row->getInformation('personalInformation','level'):'SMP'}}" class="form-control form-control-sm" />
 </div>
 @php
 $selectedClass = null;

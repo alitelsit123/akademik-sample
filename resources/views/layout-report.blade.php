@@ -7,6 +7,7 @@
   <title>RAPOR</title>
   <link rel="stylesheet" href="{{url('dist/css/adminlte.min.css')}}">
   <style>
+    @page { size:  auto; margin: 50px; }
     * {
       margin:0;
       font-family: Helvetica,'Helvetica Neue';
@@ -30,5 +31,8 @@
 </head>
 <body>
     @yield('body')
+    <script>
+      window.print();
+    </script>
 </body>
 </html>

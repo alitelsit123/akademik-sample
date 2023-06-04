@@ -27,7 +27,7 @@ class MapelController extends Controller
         ]);
         $teacher = User::findOrFail(request('teacher_id'));
         $mapel = Mapel::findOrFail(request('id'));
-        $mapel->teachers()->sync($teacher->id);
+        $mapel->teachers()->syncWithoutDetaching($teacher->id);
         return back()->with(['message' => 'Berhasil tambah guru.']);
     }
     public function update() {
