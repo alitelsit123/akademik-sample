@@ -25,13 +25,16 @@
   <div class="container-fluid">
 
     <div style="padding:3rem;background-color:#ededed; max-width:850px;overflow-x:auto;margin:auto;">
+
+      <div style="width:100%;height:300px;"></div>
+
       <h3 style="text-align:center;margin-bottom:2rem;font-weight:bold;">RAPOR<br /> SEKOLAH MENENGAH PERTAMA <br />(SMP)</h3>
       <table class="table-borderless" border="0" style="margin-bottom:4rem;width:80%;margin-left:auto;margin-right:auto;">
         @php
         $school = \App\Models\School::first();
         $tableInformation = [
           ['Nama Sekolah', $school->name],
-          ['NSPN', $school->nspn],
+          ['NSPN', $school->NSPN],
           ['NIS/NSS/NDS', $school->nis],
           ['Alamat Sekolah', $school->address],
           ['Kelurahan / Desa', ''],
@@ -104,7 +107,7 @@
         </tr>
         @endforeach
       </table>
-      <div style="width:100%;height:200px;"></div>
+      {{-- <div style="width:100%;height:200px;"></div> --}}
 
       <table width="100%">
         {{-- <div style="display:flex; align-items:center;justify-content:space-between;margin-bottom:1.75rem;">
@@ -156,6 +159,9 @@
       <h3 style="margin-top: 2.5rem;text-align:center;font-weight:bold;">PENCAPAIAN PESERTA DIDIK</h3>
       <h5 class="mt-4">A. SIKAP</h5>
       <H6>1. SIKAP SPIRITUAL</H6>
+      @php
+      $attitude = $student->attitude()->where('school_year', request('year'))->whereSemester(request('semester'))->first();
+      @endphp
       <table class="table">
         <thead>
           <tr>
@@ -165,8 +171,8 @@
         </thead>
         <tbody>
           <tr>
-            <td>{{$student->getInformation('attitude','spiritual_predicate')}}</td>
-            <td>{{$student->getInformation('attitude','spiritual_description')}}</td>
+            <td>{{$attitude->spiritual_predicate ?? ''}}</td>
+            <td>{{$attitude->spiritual_description ?? ''}}</td>
           </tr>
         </tbody>
       </table>
@@ -180,8 +186,8 @@
         </thead>
         <tbody>
           <tr>
-            <td>{{$student->getInformation('attitude','social_predicate')}}</td>
-            <td>{{$student->getInformation('attitude','social_description')}}</td>
+            <td>{{$attitude->social_predicate ?? ''}}</td>
+            <td>{{$attitude->social_description ?? ''}}</td>
           </tr>
         </tbody>
       </table>
@@ -200,7 +206,7 @@
           </tr>
           @foreach (\App\Models\Mapel::get() as $row)
           @php
-          $currentEvl = $student->studentEvaluationsCurrentSession()->where('mapels.id',$row->id)->first();
+          $currentEvl = $student->studentEvaluations()->wherePivot('school_year', request('year'))->wherePivot('semester', request('semester'))->where('mapels.id',$row->id)->first();
           @endphp
           <tr>
             <td>{{$row->name}}</td>
@@ -238,7 +244,7 @@
           </tr>
         </thead>
         <tbody>
-          @foreach ($student->extracurriculars as $key => $row)
+          @foreach ($student->extracurriculars()->where('school_year', request('year'))->whereSemester(request('semester'))->get() as $key => $row)
           <tr>
             <td>{{$key+1}}</td>
             <td>{{$row->name}}</td>
@@ -246,32 +252,59 @@
             <td>{{$row->description}}</td>
           </tr>
           @endforeach
+          @if ($student->extracurriculars->count() == 1)
+          <tr style="height: 30px;">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          @elseif($student->extracurriculars->count() == 0)
+          <tr style="height: 30px;">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr style="height: 30px;">
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          @endif
         </tbody>
       </table>
 
       <h5 class="mt-4">D. KETIDAKHADIRAN</h5>
-      <table class="table table-stripped">
+      @php
+      $unpresent = $student->unpresent()->where('school_year', request('year'))->whereSemester(request('semester'))->first();
+      @endphp
+      <table class="table table-stripped" style="width:50%;">
         <tbody>
           <tr>
             <td>Sakit </td>
-            <td>{{$student->unpresent ? $student->unpresent->sick:''}}</td>
+            <td>{{$unpresent->sick ?? ''}}</td>
           </tr>
           <tr>
             <td>Izin</td>
-            <td>{{$student->unpresent ? $student->unpresent->permission:''}}</td>
+            <td>{{$unpresent->permission ?? ''}}</td>
           </tr>
           <tr>
             <td>Alpha</td>
-            <td>{{$student->unpresent ? $student->unpresent->alpha:''}}</td>
+            <td>{{$unpresent->alpha ?? ''}}</td>
           </tr>
         </tbody>
       </table>
 
       <h5 class="mt-4">E. CATATAN WALI KELAS</h5>
-      <textarea name="" id="" rows="3" class="form-control" readonly>{{$student->getInformation('note', 'from_head_class')}}</textarea>
+      @php
+      $note = $student->note()->where('school_year', request('year'))->whereSemester(request('semester'))->first();
+      @endphp
+      <textarea name="" id="" rows="3" class="form-control" readonly>{{$note->from_head_class ?? ''}}</textarea>
 
       <h5 class="mt-4">F. TANGGAPAN ORANGTUA MURID</h5>
-      <textarea name="" id="" rows="3" class="form-control" readonly>{{$student->getInformation('note', 'from_parent')}}</textarea>
+      <textarea name="" id="" rows="3" class="form-control" readonly>{{$note->from_parent ?? ''}}</textarea>
     </div>
   </div class="container-fluid">
 @endsection

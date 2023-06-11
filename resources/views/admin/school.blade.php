@@ -7,11 +7,13 @@
     ['name', 'Nama Sekolah'],
     ['NSPN', 'NSPN'],
     ['website', 'Website'],
-    ['head_officer_name', 'Nama Kepala Sekolah'],
-    ['head_officer_nip', 'NIP Kepala Sekolah'],
+    ['head_office_name', 'Nama Kepala Sekolah'],
+    ['head_office_nip', 'NIS'],
     ['email', 'Email'],
     ['province', 'Provinsi'],
     ['regency', 'Kabupaten / Kota'],
+    ['district', 'Kecamatan'],
+    ['village', 'Kelurahan / Desa'],
     ['address', 'Alamat'],
     ['postal_code', 'Kode Pos'],
     ['phone', 'Nomor Telepon'],
@@ -69,6 +71,9 @@
       <div class="form-group col-6">
         <label for="">Tahun Ajaran</label>
         <div class="d-flex align-items justify-content-center">
+          {{-- <input type="text" name="school_year_from" value="{{\Carbon\Carbon::now()->year}}" class="form-control" id="" aria-describedby="emailHelp" placeholder="Contoh {{\Carbon\Carbon::now()->year}}" readonly>
+          <strong class="mx-2 mt-1">/</strong>
+          <input type="text" name="school_year_to" class="form-control" value="{{\Carbon\Carbon::now()->addYears(1)->year}}" id="" aria-describedby="emailHelp" placeholder="Contoh {{\Carbon\Carbon::now()->addYears(1)->year}}" readonly> --}}
           <input type="text" name="school_year_from" value="{{$school->school_year_from}}" class="form-control" id="" aria-describedby="emailHelp" placeholder="Contoh {{\Carbon\Carbon::now()->year}}">
           <strong class="mx-2 mt-1">/</strong>
           <input type="text" name="school_year_to" class="form-control" value="{{$school->school_year_to}}" id="" aria-describedby="emailHelp" placeholder="Contoh {{\Carbon\Carbon::now()->addYears(1)->year}}">

@@ -9,6 +9,9 @@ class Unpresent extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'sick','permission','alpha'
+        'sick','permission','alpha','semester','school_year','class_id'
     ];
+    public function class() {
+      return $this->hasMany('App\Classes', 'class_id');
+    }
 }

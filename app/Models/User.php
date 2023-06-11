@@ -77,17 +77,25 @@ class User extends Authenticatable
     return $this->belongsToMany('App\Models\Mapel', 'evaluations', 'student_id','mapel_id')->withPivot(['number','predicate','description','semester','school_year'])->withTimestamps()
       ->wherePivot('semester', $school->semester)->wherePivot('school_year', $school->school_year_from.'/'.$school->school_year_to);
   }
+  public function studentEvaluationProjects() {
+    return $this->belongsToMany('App\Models\Project', 'evaluation_projects', 'user_id','project_id')->withPivot(['id','bb','mb','bsh','sb','semester','school_year'])->withTimestamps();
+  }
+  public function studentEvaluationProjectsCurrentSession() {
+    $school = \App\Models\School::first();
+    return $this->belongsToMany('App\Models\Project', 'evaluation_projects', 'user_id','project_id')->withPivot(['id','bb','mb','bsh','sb','semester','school_year'])->withTimestamps()
+      ->wherePivot('semester', $school->semester)->wherePivot('school_year', $school->school_year_from.'/'.$school->school_year_to);
+  }
   public function teaches() {
     return $this->belongsToMany('App\Models\Mapel', 'mapel_teachers', 'teacher_id', 'mapel_id');
   }
   public function attitude() {
-    return $this->hasOne('App\Models\Attitude','student_id');
+    return $this->hasMany('App\Models\Attitude','student_id');
   }
   public function unpresent() {
-    return $this->hasOne('App\Models\Unpresent','student_id');
+    return $this->hasMany('App\Models\Unpresent','student_id');
   }
   public function note() {
-    return $this->hasOne('App\Models\Note','student_id');
+    return $this->hasMany('App\Models\Note','student_id');
   }
   public function extracurriculars() {
     return $this->hasMany('App\Models\Extracurricular','student_id');
@@ -100,6 +108,9 @@ class User extends Authenticatable
   }
   public function classMapels() {
     return $this->belongsToMany('App\Models\Mapel', 'class_teachers', 'teacher_id', 'mapel_id')->withPivot(['class_id']);
+  }
+  public function raportSessions() {
+    return $this->hasMany('App\Models\RaportSession', 'user_id');
   }
 
   public function getInformation($name, $attr) {

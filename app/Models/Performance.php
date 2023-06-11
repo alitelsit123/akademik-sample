@@ -9,6 +9,9 @@ class Performance extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name','description'
+        'name','description','semester','school_year','class_id'
     ];
+    public function class() {
+      return $this->hasMany('App\Classes', 'class_id');
+    }
 }

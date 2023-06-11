@@ -10,14 +10,15 @@ use App\Models\School;
 class SchoolController extends Controller
 {
     public function index() {
-        return view('admin.school');
+      return view('admin.school');
     }
     public function update() {
-        $school = School::findOrFail(request('id'));
-        foreach (getTableColumn($school->getTable(), ['id','created_at','updated_at']) as $item) {
-            $school->{$item} = request($item);
-        }
-        $school->save();
-        return back()->with(['message' => 'Sekolah diubah.']);
+      $school = School::findOrFail(request('id'));
+      // dd(request()->all());
+      foreach (getTableColumn($school->getTable(), ['id','created_at','updated_at']) as $item) {
+          $school->{$item} = request($item);
+      }
+      $school->save();
+      return back()->with(['message' => 'Sekolah diubah.']);
     }
 }

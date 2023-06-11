@@ -163,7 +163,7 @@
                         <select name="head_class_id" id="" class="form-control" style="width:50%;">
                             <option value=""></option>
                             @foreach ($headClasses as $rowHeadClass)
-                            <option value="{{$rowHeadClass->id}}">{{$rowHeadClass->getInformation('personalInformation','name')}}</option>
+                            <option value="{{$rowHeadClass->id}}" @if($rowHeadClass->id == $row->head_class_id) selected @endif>{{$rowHeadClass->getInformation('personalInformation','name')}}</option>
                             @endforeach
                         </select>
                       </div>

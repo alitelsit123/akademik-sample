@@ -17,7 +17,6 @@ class StudentController extends Controller
     public function store() {
         request()->validate([
             'nisn' => ['required'],
-            'class_id' => ['required']
         ]);
         User::whereEmail(request('nisn').'@akademik.sch.id')->delete();
         $existingUser = User::whereEmail(request('nisn').'@akademik.sch.id')->first();
@@ -119,7 +118,6 @@ class StudentController extends Controller
         request()->validate([
             'nisn' => ['required'],
             'id' => ['required'],
-            'class_id' => ['required']
         ]);
         $user = User::findOrFail(request('id'));
         if ($user) {

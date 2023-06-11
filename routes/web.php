@@ -53,6 +53,13 @@ Route::middleware('auth')->group(function() {
         Route::get('/destroy/{id}', [Admin\MapelController::class,'destroy']);
     });
 
+    Route::prefix('project')->group(function() {
+      Route::get('/', [Admin\ProjectController::class,'index']);
+      Route::post('/store', [Admin\ProjectController::class,'store']);
+      Route::post('/update', [Admin\ProjectController::class,'update']);
+      Route::get('/destroy/{id}', [Admin\ProjectController::class,'destroy']);
+    });
+
     Route::prefix('school')->group(function() {
         Route::get('/', [Admin\SchoolController::class,'index']);
         Route::post('/update', [Admin\SchoolController::class,'update']);
@@ -62,6 +69,14 @@ Route::middleware('auth')->group(function() {
         Route::get('/', [Admin\ReportController::class,'index']);
         Route::get('/report_preview/{id}', [Admin\ReportController::class,'preview']);
     });
+
+    Route::prefix('induck')->group(function() {
+      Route::get('/', [Admin\InduckController::class,'index']);
+      // Route::get('/report_preview/{id}', [Admin\ReportController::class,'preview']);
+      Route::get('/detail/{id}', [Admin\InduckController::class, 'detail']);
+      Route::get('/detail-proyek/{id}', [Admin\InduckController::class, 'detailProyek']);
+      Route::post('/store_project', [Admin\InduckController::class, 'storeProject']);
+  });
 
   });
 

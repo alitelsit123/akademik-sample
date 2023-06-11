@@ -10,6 +10,9 @@ class Attitude extends Model
     use HasFactory;
     protected $fillable = [
         'spiritual_predicate','spiritual_description',
-        'social_predicate','social_description',
+        'social_predicate','social_description','semester','school_year','class_id'
     ];
+    public function class() {
+      return $this->hasMany('App\Classes', 'class_id');
+    }
 }

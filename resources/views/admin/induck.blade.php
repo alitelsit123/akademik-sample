@@ -41,7 +41,7 @@
 
   <!-- Main content -->
   <div class="container-fluid py-3">
-    <div class="mb-3">
+    {{-- <div class="mb-3">
         <div class="alert alert-info">
             <strong>Informasi</strong>
             <ul>
@@ -50,7 +50,7 @@
                 <li>Merah: belum di input</li>
             </ul>
         </div>
-    </div>
+    </div> --}}
     <div class="table-responsive">
       <table class="table table-striped">
         <thead>
@@ -67,47 +67,22 @@
         @foreach ($students as $row)
         @php
         $key = 0;
-        $totalMapel = \App\Models\Mapel::count();
-        $evaluationCurrentSeesion = $row->studentEvaluationsCurrentSession->count();
-        $evaluationUnfinish = ($evaluationCurrentSeesion < $totalMapel && $evaluationCurrentSeesion > 0);
-        $evaluationCompleted = ($evaluationCurrentSeesion >= $totalMapel);
-        $evaluationSubmitted = $row->raportSessions->first();
         @endphp
-        <tr class="@if(!$evaluationCompleted) table-danger @elseif($evaluationSubmitted) table-success @else table-warning @endif">
+        <tr class="">
           <th scope="row">#</th>
           <td>{{$row->getInformation('personalInformation','name')}}</td>
           <td>{{$row->getInformation('studentInformation','class') ? $row->getInformation('studentInformation','class')->name: ''}}</td>
           <td>{{$school->school_year_from.'/'.$school->school_year_to}}</td>
           <td>{{$school->semester}}</td>
-          <td style="width: 190px;">
-            @if ($evaluationSubmitted)
-            @foreach ($row->studentEvaluations->groupBy('pivot.school_year') as $rowYear => $v)
-              @foreach ($row->studentEvaluations->groupBy('pivot.semester') as $rowSemester => $v)
-              @php
-              $evaluationSubmitted = ($row->raportSessions()->whereSemester($rowSemester)->whereSchool_year($rowYear)->first());
-              @endphp
-              @if ($evaluationSubmitted)
-              <div class="d-flex align-items-center">
-                <a href="{{url('admin/report/report_preview/'.$row->id.'?year='.$rowYear.'&semester='.$rowSemester)}}" target="_blank" class="btn btn-xs btn-success">
-                  Cetak Rapor {{$rowYear}} {{$rowSemester}}
-                </a>
-              </div>
-              @endif
-              @endforeach
-            @endforeach
-            @elseif($evaluationCompleted)
-            <small>Belum di Validasi</small>
-            @elseif($evaluationUnfinish)
-            <small>Belum selesai diinput</small>
-            @else
-            <small>Belum input</small>
-            @endif
+          <td style="width:180px;">
+            <a href="{{url('/admin/induck/detail/'.$row->id)}}" class="btn btn-xs btn-success btn-block">Lihat Laporan Nilai</a>
+            <a href="{{url('/admin/induck/detail-proyek/'.$row->id)}}" class="btn btn-xs btn-success btn-block">Lihat Laporan Proyek</a>
           </td>
         </tr>
         @endforeach
         @if ($students->count() == 0)
         <tr>
-          <td colspan="5" class="text-center">Tidak ada siswa yang perlu dinilai.</td>
+          <td colspan="5" class="text-center">Tidak ada data.</td>
         </tr>
         @endif
       </tbody>

@@ -1,10 +1,10 @@
 <div class="form-group">
   <label for="">Nomor Induk Siswa (NISN)</label>
-  <input name="nisn" type="text" value="{{isset($row) ? $row->getInformation('personalInformation','nisn'):''}}" class="form-control form-control-sm" />
+  <input name="nisn" type="text" value="{{isset($row) ? $row->getInformation('personalInformation','nisn'):''}}" required class="form-control form-control-sm" />
 </div>
 <div class="form-group">
   <label for="">Nama / Jenis Sekolah</label>
-  <input type="text" name="school_name" value="{{$school->name}}" class="form-control form-control-sm" readonly />
+  <input type="text" name="school_name" value="{{$school->name}}" class="form-control form-control-sm" readonly required />
 </div>
 <div class="form-group">
   <label for="">Program Study / Jenjang</label>
@@ -116,7 +116,11 @@ if (isset($row)) {
   <input type="number" name="weight" value="{{isset($row) ? $row->getInformation('healthInformation','weight'):''}}" class="form-control form-control-sm" />
 </div>
 
-<div class="mt-3"><h4>D. Keterangan Pendidikan Sebelumnya</h4></div>
+<div class="mt-3"><h4>D. Keterangan Pendidikan</h4></div>
+<div class="form-group">
+  <label for="">Diterima di sekolah ini tahun</label>
+  <input type="number" name="education_transfer_date" value="{{isset($row) ? $row->getInformation('educationInformation','transfer_date'):''}}" class="form-control form-control-sm" />
+</div>
 <div class="mb-2"><strong>Asal Sekolah</strong></div>
 <div class="form-group">
   <label for="">Nama Sekolah</label>
@@ -128,7 +132,7 @@ if (isset($row)) {
 </div>
 <div class="form-group">
   <label for="">Tanggal dan Nomor STTB</label>
-  <input type="text" name="education_sttb_date_number" value="{{isset($row) ? $row->getInformation('educationInformation','sttb_date_number'):''}}" class="form-control form-control-sm" />
+  <input type="text" name="education_sttb_date_number" value="{{isset($row) ? $row->getInformation('educationInformation','sttb_date_number'):''}}" class="form-control form-control-sm" required />
 </div>
 <div class="form-group">
   <label for="">Lama Belajar</label>
@@ -138,10 +142,6 @@ if (isset($row)) {
 <div class="form-group">
   <label for="">Nama Sekolah</label>
   <input type="text" name="education_move_school" value="{{isset($row) ? $row->getInformation('educationInformation','education_move_school'):''}}" class="form-control form-control-sm" />
-</div>
-<div class="form-group">
-  <label for="">Diterima di sekolah ini tanggal</label>
-  <input type="text" name="education_transfer_date" value="{{isset($row) ? $row->getInformation('educationInformation','transfer_date'):''}}" class="form-control form-control-sm" />
 </div>
 <div class="form-group">
   <label for="">Alasan Pindah</label>

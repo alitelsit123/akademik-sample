@@ -64,7 +64,7 @@
         $key = 0;
         $totalMapel = \App\Models\Mapel::count();
         $evaluationCompleted = ($row->studentEvaluationsCurrentSession()->count() >= $totalMapel);
-        $evaluationSubmitted = ($row->getInformation('studentInformation', 'rapor_ready') != null);
+        $evaluationSubmitted = ($row->raportSessions()->whereSemester($school->semester)->whereSchool_year($school->school_year_from.'/'.$school->school_year_to)->first() ? true: false);
         @endphp
         <tr class="@if(!$evaluationCompleted) table-danger @elseif($evaluationSubmitted) table-success @else @endif">
           <th scope="row">#</th>
@@ -87,19 +87,22 @@
                     <input type="hidden" name="id" value="{{$row->id}}" />
                     <div class="modal-body row">
                       <div class="col-12"><h5>A. SIKAP</h5></div>
+                      @php
+                      $currentAttitude = $row->attitude()->whereSemester($school->semester)->whereSchool_year($school->school_year_from.'/'.$school->school_year_to)->first();
+                      @endphp
                       <div class="form-group col-6">
                         <label for="">Sikap Spiritual</label>
                         <div><small>Predikat</small></div>
-                        <input type="text" name="spirit_predicate" value="{{$row->attitude ? $row->attitude->spiritual_predicate:''}}" class="form-control form-control-sm" required />
+                        <input type="text" name="spirit_predicate" value="{{$currentAttitude->spiritual_predicate ?? ''}}" class="form-control form-control-sm" required />
                         <div><small>Deskripsi</small></div>
-                        <textarea name="spirit_description" id="" rows="2" class="form-control">{{$row->attitude ? $row->attitude->spiritual_description:''}}</textarea>
+                        <textarea name="spirit_description" id="" rows="2" class="form-control">{{$currentAttitude->spiritual_description ?? ''}}</textarea>
                       </div>
                       <div class="form-group col-6">
                         <label for="">Sikap Sosial</label>
                         <div><small>Predikat</small></div>
-                        <input type="text" name="social_predicate" value="{{$row->attitude ? $row->attitude->social_predicate:''}}" class="form-control form-control-sm" required />
+                        <input type="text" name="social_predicate" value="{{$currentAttitude->social_predicate ?? ''}}" class="form-control form-control-sm" required />
                         <div><small>Deskripsi</small></div>
-                        <textarea name="social_description" id="" rows="2" class="form-control">{{$row->attitude ? $row->attitude->social_description:''}}</textarea>
+                        <textarea name="social_description" id="" rows="2" class="form-control">{{$currentAttitude->social_predicate ?? ''}}</textarea>
                       </div>
 
                       @php
@@ -129,7 +132,8 @@
 
                       <div class="col-12"><h5>C. EXTRAKULIKURER</h5></div>
                       @php
-                      $extracurriculars = $row->extracurriculars;
+                      $extracurriculars = $row->extracurriculars()->whereSemester($school->semester)->whereSchool_year($school->school_year_from.'/'.$school->school_year_to)->get()->all();
+                      // dd($extracurriculars);
                       @endphp
                       <table class="table">
                         <thead>
@@ -140,22 +144,19 @@
                           </tr>
                         </thead>
                         <tbody>
+                          @foreach ([0,1] as $k)
                           <tr>
-                            <td><input type="text" name="extra_name1" value="{{$extracurriculars->get(0) ? $extracurriculars->get(0)->name: ''}}" class="form-control form-control-sm" /></td>
-                            <td><input type="text" name="extra_predicate1" value="{{$extracurriculars->get(0) ? $extracurriculars->get(0)->predicate: ''}}" class="form-control form-control-sm" /></td>
-                            <td><textarea name="extra_description1" id="" value="{{$extracurriculars->get(0) ? $extracurriculars->get(0)->description: ''}}" rows="2" class="form-control"></textarea></td>
+                            <td><input type="text" name="extra_name{{$k+1}}" value="{{$extracurriculars[$k] ? $extracurriculars[$k]->name: ''}}" class="form-control form-control-sm" /></td>
+                            <td><input type="text" name="extra_predicate{{$k+1}}" value="{{$extracurriculars[$k] ? $extracurriculars[$k]->predicate: ''}}" class="form-control form-control-sm" /></td>
+                            <td><textarea name="extra_description{{$k+1}}" id="" rows="2" class="form-control">{{$extracurriculars[$k] ? $extracurriculars[$k]->description: ''}}</textarea></td>
                           </tr>
-                          <tr>
-                            <td><input type="text" name="extra_name2" value="{{$extracurriculars->get(1) ? $extracurriculars->get(1)->name: ''}}" class="form-control form-control-sm" /></td>
-                            <td><input type="text" name="extra_predicate2" value="{{$extracurriculars->get(1) ? $extracurriculars->get(1)->predicate: ''}}" class="form-control form-control-sm" /></td>
-                            <td><textarea name="extra_description2" id="" value="{{$extracurriculars->get(1) ? $extracurriculars->get(1)->description: ''}}" rows="2" class="form-control"></textarea></td>
-                          </tr>
+                          @endforeach
                         </tbody>
                       </table>
 
                       <div class="col-12"><h5>D. PRESTASI</h5></div>
                       @php
-                      $performances = $row->performances;
+                      $performances = $row->performances()->whereSemester($school->semester)->whereSchool_year($school->school_year_from.'/'.$school->school_year_to)->get()->all();
                       @endphp
                       <table class="table">
                         <thead>
@@ -165,35 +166,36 @@
                           </tr>
                         </thead>
                         <tbody>
+                          @foreach ([0,1] as $kk => $rowPerformance)
                           <tr>
-                            <td><input type="text" name="performance_name1" value="{{$extracurriculars->get(0) ? $extracurriculars->get(0)->name: ''}}" class="form-control form-control-sm" /></td>
-                            <td><textarea name="performance_description1" id="" rows="2" class="form-control">{{$extracurriculars->get(0) ? $extracurriculars->get(0)->description: ''}}</textarea></td>
+                            <td><input type="text" name="performance_name{{$kk+1}}" value="{{$performances[$kk]->name ?? ''}}" class="form-control form-control-sm" /></td>
+                            <td><textarea name="performance_description{{$kk+1}}" id="" rows="2" class="form-control">{{$performances[$kk]->description ?? ''}}</textarea></td>
                           </tr>
-                          <tr>
-                            <td><input type="text" name="performance_name2" value="{{$extracurriculars->get(1) ? $extracurriculars->get(1)->name: ''}}" class="form-control form-control-sm" /></td>
-                            <td><textarea name="performance_description2" id="" rows="2" class="form-control">{{$extracurriculars->get(1) ? $extracurriculars->get(1)->description: ''}}</textarea></td>
-                          </tr>
+                          @endforeach
                         </tbody>
                       </table>
 
                       <div class="col-12"><h5>E. KETIDAKHADIRAN</h5></div>
                       <div class="form-group col-6">
                         <div><small>Sakit</small></div>
-                        <input type="text" name="sick" value="{{$row->unpresent ? $row->unpresent->sick:0}}" class="form-control form-control-sm" />
+                        <input type="text" name="sick" value="0" class="form-control form-control-sm" />
                         <div><small>Izin</small></div>
-                        <input type="text" name="permission" value="{{$row->unpresent ? $row->unpresent->permission:0}}" class="form-control form-control-sm" />
+                        <input type="text" name="permission" value="0" class="form-control form-control-sm" />
                         <div><small>Alpha</small></div>
-                        <input type="text" name="alpha" value="{{$row->unpresent ? $row->unpresent->alpha:0}}" class="form-control form-control-sm" />
+                        <input type="text" name="alpha" value="0" class="form-control form-control-sm" />
                       </div>
 
                       <div class="col-12"><h5>E. CATATAN WALI KELAS</h5></div>
+                      @php
+                      $note = $row->note()->whereSemester($school->semester)->whereSchool_year($school->school_year_from.'/'.$school->school_year_to)->first();
+                      @endphp
                       <div class="form-group col-12">
-                        <textarea name="from_head_class" id="" rows="2" class="form-control">{{$row->note ? $row->note->from_head_class:''}}</textarea>
+                        <textarea name="from_head_class" id="" rows="2" class="form-control">{{$note->from_head_class ?? ''}}</textarea>
                       </div>
 
                       <div class="col-12"><h5>F. TANGGAPAN WALI MURID</h5></div>
                       <div class="form-group col-12">
-                        <textarea name="from_parent" id="" rows="2" class="form-control">{{$row->note ? $row->note->from_parent:''}}</textarea>
+                        <textarea name="from_parent" id="" rows="2" class="form-control">{{$note->from_parent ?? ''}}</textarea>
                       </div>
 
                     </div>
