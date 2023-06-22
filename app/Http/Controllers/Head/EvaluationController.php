@@ -138,7 +138,7 @@ class EvaluationController extends Controller
                 $info->rapor_ready = now();
                 $info->save();
             }
-            $user->raportSessions()->firstOrCreate(['semester' => $school->semester, 'school_year' => $school->school_year_from.'/'.$school->school_year_to]);
+            $user->raportSessions()->firstOrCreate(['semester' => $school->semester, 'school_year' => $school->school_year_from.'/'.$school->school_year_to, 'class_id' => $info->class_id]);
         }
         return back()->with(['message' => 'Berhasil di submit.']);
     }

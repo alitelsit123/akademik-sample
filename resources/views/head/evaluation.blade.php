@@ -144,11 +144,11 @@
                           </tr>
                         </thead>
                         <tbody>
-                          @foreach ([0,1] as $k)
+                          @foreach ([0,1] as $k => $v)
                           <tr>
-                            <td><input type="text" name="extra_name{{$k+1}}" value="{{$extracurriculars[$k] ? $extracurriculars[$k]->name: ''}}" class="form-control form-control-sm" /></td>
-                            <td><input type="text" name="extra_predicate{{$k+1}}" value="{{$extracurriculars[$k] ? $extracurriculars[$k]->predicate: ''}}" class="form-control form-control-sm" /></td>
-                            <td><textarea name="extra_description{{$k+1}}" id="" rows="2" class="form-control">{{$extracurriculars[$k] ? $extracurriculars[$k]->description: ''}}</textarea></td>
+                            <td><input type="text" name="extra_name{{$k+1}}" value="{{isset($extracurriculars[$k]) ? $extracurriculars[$k]->name: ''}}" class="form-control form-control-sm" /></td>
+                            <td><input type="text" name="extra_predicate{{$k+1}}" value="{{isset($extracurriculars[$k]) ? $extracurriculars[$k]->predicate: ''}}" class="form-control form-control-sm" /></td>
+                            <td><textarea name="extra_description{{$k+1}}" id="" rows="2" class="form-control">{{isset($extracurriculars[$k]) ? $extracurriculars[$k]->description: ''}}</textarea></td>
                           </tr>
                           @endforeach
                         </tbody>

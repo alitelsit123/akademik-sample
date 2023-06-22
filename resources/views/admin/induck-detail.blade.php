@@ -241,7 +241,7 @@
           </tr>
           <tr class="row5">
             @php
-            $inYear = \Carbon\Carbon::parse($user->getInformation('educationInformation','transfer_date').'-01-01');
+            $inYear = \Carbon\Carbon::parse(request('start_year') ?? $user->getInformation('educationInformation','transfer_date').'-01-01');
             @endphp
             <td class="column0 style6 s style7" colspan="2">TAHUN PELAJARAN</td>
             <td class="column2 style8 s style7" colspan="4">{{$inYear->year}}/{{$inYear->addYears(1)->year}}</td>
@@ -297,7 +297,7 @@
           @endphp
           @foreach ($mapels as $k => $item)
           @php
-          $inYear = \Carbon\Carbon::parse($user->getInformation('educationInformation','transfer_date').'-01-01');
+          $inYear = \Carbon\Carbon::parse(request('start_year') ?? $user->getInformation('educationInformation','transfer_date').'-01-01');
           // dd($user->studentEvaluations()->where('mapels.id',$item->id)->get()->toArray());
           @endphp
           <tr class="row10">
@@ -575,7 +575,7 @@
           <tr class="row31">
             <td class="column0 style27 s style19" rowspan="3">Ekstrakulikular</td>
             @php
-            $inYear = \Carbon\Carbon::parse($user->getInformation('educationInformation','transfer_date').'-01-01');
+            $inYear = \Carbon\Carbon::parse(request('start_year') ?? $user->getInformation('educationInformation','transfer_date').'-01-01');
             $yA = [$inYear.'/'.$inYear->addYears(1)->year,$inYear.'/'.$inYear->addYears(1)->year,$inYear.'/'.$inYear->addYears(1)->year];
             @endphp
             <td class="column1 style28 s">Sakit</td>
@@ -592,7 +592,7 @@
           </tr>
           <tr class="row32">
             @php
-            $inYear = \Carbon\Carbon::parse($user->getInformation('educationInformation','transfer_date').'-01-01');
+            $inYear = \Carbon\Carbon::parse(request('start_year') ?? $user->getInformation('educationInformation','transfer_date').'-01-01');
             $yA = [$inYear.'/'.$inYear->addYears(1)->year,$inYear.'/'.$inYear->addYears(1)->year,$inYear.'/'.$inYear->addYears(1)->year];
             @endphp
             <td class="column1 style28 s">Izin</td>
@@ -610,7 +610,7 @@
           <tr class="row33">
             <td class="column1 style28 s">Tanpa Keterangan</td>
             @php
-            $inYear = \Carbon\Carbon::parse($user->getInformation('educationInformation','transfer_date').'-01-01');
+            $inYear = \Carbon\Carbon::parse(request('start_year') ?? $user->getInformation('educationInformation','transfer_date').'-01-01');
             $yA = [$inYear.'/'.$inYear->addYears(1)->year,$inYear.'/'.$inYear->addYears(1)->year,$inYear.'/'.$inYear->addYears(1)->year];
             @endphp
             @foreach ($yA as $item)

@@ -76,6 +76,10 @@ Route::middleware('auth')->group(function() {
       Route::get('/detail/{id}', [Admin\InduckController::class, 'detail']);
       Route::get('/detail-proyek/{id}', [Admin\InduckController::class, 'detailProyek']);
       Route::post('/store_project', [Admin\InduckController::class, 'storeProject']);
+    });
+
+    Route::prefix('search')->group(function() {
+      Route::get('/', [Admin\SearchController::class,'index']);
   });
 
   });

@@ -80,7 +80,29 @@
 
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
+        @if (auth()->user()->level == 'admin')
         <!-- Navbar Search -->
+        <li class="nav-item">
+          <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+            <i class="fas fa-search"></i>@if(request('q')) &nbsp; "{{request('q')}}" @endif
+          </a>
+          <div class="navbar-search-block">
+            <form class="form-inline" method="GET" action="{{url('admin/search')}}">
+              <div class="input-group input-group-sm">
+                <input class="form-control form-control-navbar" type="search" placeholder="Search" name="q" aria-label="Search">
+                <div class="input-group-append">
+                  <button class="btn btn-navbar" type="submit">
+                    <i class="fas fa-search"></i>
+                  </button>
+                  <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </li>
+        @endif
         <li class="nav-item">
           <a class="nav-link clock" href="#" role="button"></a>
         </li>
