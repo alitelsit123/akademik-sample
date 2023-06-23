@@ -11,6 +11,9 @@ class Performance extends Model
     protected $fillable = [
         'name','description','semester','school_year','class_id'
     ];
+    protected $attributes = [
+      'class_id' => 0
+    ];
     public function class() {
       return $this->hasMany('App\Classes', 'class_id');
     }

@@ -12,6 +12,9 @@ class Attitude extends Model
         'spiritual_predicate','spiritual_description',
         'social_predicate','social_description','semester','school_year','class_id'
     ];
+    protected $attributes = [
+      'class_id' => 0
+    ];
     public function class() {
       return $this->hasMany('App\Classes', 'class_id');
     }

@@ -176,13 +176,16 @@
                       </table>
 
                       <div class="col-12"><h5>E. KETIDAKHADIRAN</h5></div>
+                      @php
+                      $unpresent = $row->unpresent()->whereSemester($school->semester)->whereSchool_year($school->school_year_from.'/'.$school->school_year_to)->first();
+                      @endphp
                       <div class="form-group col-6">
                         <div><small>Sakit</small></div>
-                        <input type="text" name="sick" value="0" class="form-control form-control-sm" />
+                        <input type="text" name="sick" value="{{$unpresent->sick}}" class="form-control form-control-sm" />
                         <div><small>Izin</small></div>
-                        <input type="text" name="permission" value="0" class="form-control form-control-sm" />
+                        <input type="text" name="permission" value="{{$unpresent->permission}}" class="form-control form-control-sm" />
                         <div><small>Alpha</small></div>
-                        <input type="text" name="alpha" value="0" class="form-control form-control-sm" />
+                        <input type="text" name="alpha" value="{{$unpresent->alpha}}" class="form-control form-control-sm" />
                       </div>
 
                       <div class="col-12"><h5>E. CATATAN WALI KELAS</h5></div>

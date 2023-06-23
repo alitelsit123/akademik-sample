@@ -11,6 +11,9 @@ class Note extends Model
     protected $fillable = [
         'from_head_class','from_parent','semester','school_year','class_id'
     ];
+    protected $attributes = [
+      'class_id' => 0
+    ];
     public function class() {
       return $this->hasMany('App\Classes', 'class_id');
     }

@@ -294,25 +294,40 @@
           @php
           $mapels = \App\Models\Mapel::all();
           $k = 0;
+          $sty = \Carbon\Carbon::parse(request('start_year') ?? $user->getInformation('educationInformation','transfer_date').'-01-01');
           @endphp
           @foreach ($mapels as $k => $item)
-          @php
-          $inYear = \Carbon\Carbon::parse(request('start_year') ?? $user->getInformation('educationInformation','transfer_date').'-01-01');
-          // dd($user->studentEvaluations()->where('mapels.id',$item->id)->get()->toArray());
-          @endphp
           <tr class="row10">
             <td class="column0 style20 n">{{$k}}</td>
             <td class="column1 style21 s">{{$item->name}}</td>
+            @php
+            $inYear = \Carbon\Carbon::parse(request('start_year') ?? $user->getInformation('educationInformation','transfer_date').'-01-01');
+            @endphp
             <td class="column2 style22 null">{{$user->studentEvaluations()->where('mapels.id',$item->id)->wherePivot('semester', 'Ganjil')->wherePivot('school_year',$inYear->year.'/'.$inYear->addYears(1)->year)->first()->pivot->number ?? ''}}</td>
             <td class="column3 style22 null"></td>
+            @php
+            $inYear = \Carbon\Carbon::parse(request('start_year') ?? $user->getInformation('educationInformation','transfer_date').'-01-01');
+            @endphp
             <td class="column4 style22 null">{{$user->studentEvaluations()->where('mapels.id',$item->id)->wherePivot('semester', 'Genap')->wherePivot('school_year',$inYear->year.'/'.$inYear->addYears(1)->year)->first()->pivot->number ?? ''}}</td>
             <td class="column5 style22 null"></td>
+            @php
+            $inYear = \Carbon\Carbon::parse(request('start_year') ?? $user->getInformation('educationInformation','transfer_date').'-01-01')->addYears(1);
+            @endphp
             <td class="column6 style22 null">{{$user->studentEvaluations()->where('mapels.id',$item->id)->wherePivot('semester', 'Ganjil')->wherePivot('school_year',$inYear->year.'/'.$inYear->addYears(1)->year)->first()->pivot->number ?? ''}}</td>
             <td class="column7 style22 null"></td>
+            @php
+            $inYear = \Carbon\Carbon::parse(request('start_year') ?? $user->getInformation('educationInformation','transfer_date').'-01-01')->addYears(1);
+            @endphp
             <td class="column8 style22 null">{{$user->studentEvaluations()->where('mapels.id',$item->id)->wherePivot('semester', 'Genap')->wherePivot('school_year',$inYear->year.'/'.$inYear->addYears(1)->year)->first()->pivot->number ?? ''}}</td>
             <td class="column9 style22 null"></td>
+            @php
+            $inYear = \Carbon\Carbon::parse(request('start_year') ?? $user->getInformation('educationInformation','transfer_date').'-01-01')->addYears(1);
+            @endphp
             <td class="column10 style22 null">{{$user->studentEvaluations()->where('mapels.id',$item->id)->wherePivot('semester', 'Ganjil')->wherePivot('school_year',$inYear->year.'/'.$inYear->addYears(1)->year)->first()->pivot->number ?? ''}}</td>
             <td class="column11 style22 null"></td>
+            @php
+            $inYear = \Carbon\Carbon::parse(request('start_year') ?? $user->getInformation('educationInformation','transfer_date').'-01-01')->addYears(1);
+            @endphp
             <td class="column12 style22 null">{{$user->studentEvaluations()->where('mapels.id',$item->id)->wherePivot('semester', 'Genap')->wherePivot('school_year',$inYear->year.'/'.$inYear->addYears(1)->year)->first()->pivot->number ?? ''}}</td>
             <td class="column13 style22 null"></td>
             <td class="column14 style22 null"></td>
@@ -576,7 +591,7 @@
             <td class="column0 style27 s style19" rowspan="3">Ekstrakulikular</td>
             @php
             $inYear = \Carbon\Carbon::parse(request('start_year') ?? $user->getInformation('educationInformation','transfer_date').'-01-01');
-            $yA = [$inYear.'/'.$inYear->addYears(1)->year,$inYear.'/'.$inYear->addYears(1)->year,$inYear.'/'.$inYear->addYears(1)->year];
+            $yA = [$inYear->year.'/'.$inYear->addYears(1)->year,$inYear->year.'/'.$inYear->addYears(1)->year,$inYear->year.'/'.$inYear->addYears(1)->year];
             @endphp
             <td class="column1 style28 s">Sakit</td>
             @foreach ($yA as $item)
@@ -593,7 +608,7 @@
           <tr class="row32">
             @php
             $inYear = \Carbon\Carbon::parse(request('start_year') ?? $user->getInformation('educationInformation','transfer_date').'-01-01');
-            $yA = [$inYear.'/'.$inYear->addYears(1)->year,$inYear.'/'.$inYear->addYears(1)->year,$inYear.'/'.$inYear->addYears(1)->year];
+            $yA = [$inYear->year.'/'.$inYear->addYears(1)->year,$inYear->year.'/'.$inYear->addYears(1)->year,$inYear->year.'/'.$inYear->addYears(1)->year];
             @endphp
             <td class="column1 style28 s">Izin</td>
             @foreach ($yA as $item)
@@ -611,7 +626,7 @@
             <td class="column1 style28 s">Tanpa Keterangan</td>
             @php
             $inYear = \Carbon\Carbon::parse(request('start_year') ?? $user->getInformation('educationInformation','transfer_date').'-01-01');
-            $yA = [$inYear.'/'.$inYear->addYears(1)->year,$inYear.'/'.$inYear->addYears(1)->year,$inYear.'/'.$inYear->addYears(1)->year];
+            $yA = [$inYear->year.'/'.$inYear->addYears(1)->year,$inYear->year.'/'.$inYear->addYears(1)->year,$inYear->year.'/'.$inYear->addYears(1)->year];
             @endphp
             @foreach ($yA as $item)
             <td class="column2 style32 s style7" colspan="2">{{$user->unpresent()->whereSemester('Ganjil')->whereSchool_year($item)->first()->alpha ?? 0}} Hari</td>
