@@ -157,14 +157,6 @@
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
             data-accordion="false">
             @if (auth()->user()->level == 'admin')
-            <li class="nav-item">
-              <a href="{{url('admin')}}" class="nav-link">
-                <i class="nav-icon fas fa-home"></i>
-                <p>
-                  Home
-                </p>
-              </a>
-            </li>
             <li class="nav-item menu-open">
               <a href="#" class="nav-link active">
                 <i class="nav-icon far fa-circle"></i>
