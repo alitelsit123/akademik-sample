@@ -181,11 +181,11 @@
                       @endphp
                       <div class="form-group col-6">
                         <div><small>Sakit</small></div>
-                        <input type="text" name="sick" value="{{$unpresent->sick}}" class="form-control form-control-sm" />
+                        <input type="text" name="sick" value="{{$unpresent->sick ?? 0}}" class="form-control form-control-sm" />
                         <div><small>Izin</small></div>
-                        <input type="text" name="permission" value="{{$unpresent->permission}}" class="form-control form-control-sm" />
+                        <input type="text" name="permission" value="{{$unpresent->permission ?? 0}}" class="form-control form-control-sm" />
                         <div><small>Alpha</small></div>
-                        <input type="text" name="alpha" value="{{$unpresent->alpha}}" class="form-control form-control-sm" />
+                        <input type="text" name="alpha" value="{{$unpresent->alpha ?? 0}}" class="form-control form-control-sm" />
                       </div>
 
                       <div class="col-12"><h5>E. CATATAN WALI KELAS</h5></div>
