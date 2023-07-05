@@ -148,7 +148,7 @@ if (isset($row)) {
   <input type="text" name="education_reason" value="{{isset($row) ? $row->getInformation('educationInformation','reason'):''}}" class="form-control form-control-sm" />
 </div>
 
-<div class="mt-3"><h4>D. Keterangan Tentang Orang Tua Kandung</h4></div>
+<div class="mt-3"><h4>E. Keterangan Tentang Orang Tua Kandung</h4></div>
 <div class="mb-2"><strong>Nama</strong></div>
 <div class="form-group">
   <label for="">Ayah</label>

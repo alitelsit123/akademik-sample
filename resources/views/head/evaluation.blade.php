@@ -188,7 +188,7 @@
                         <input type="text" name="alpha" value="{{$unpresent->alpha ?? 0}}" class="form-control form-control-sm" />
                       </div>
 
-                      <div class="col-12"><h5>E. CATATAN WALI KELAS</h5></div>
+                      <div class="col-12"><h5>F. CATATAN WALI KELAS</h5></div>
                       @php
                       $note = $row->note()->whereSemester($school->semester)->whereSchool_year($school->school_year_from.'/'.$school->school_year_to)->first();
                       @endphp
@@ -196,7 +196,7 @@
                         <textarea name="from_head_class" id="" rows="2" class="form-control">{{$note->from_head_class ?? ''}}</textarea>
                       </div>
 
-                      <div class="col-12"><h5>F. TANGGAPAN WALI MURID</h5></div>
+                      <div class="col-12"><h5>G. TANGGAPAN WALI MURID</h5></div>
                       <div class="form-group col-12">
                         <textarea name="from_parent" id="" rows="2" class="form-control">{{$note->from_parent ?? ''}}</textarea>
                       </div>
