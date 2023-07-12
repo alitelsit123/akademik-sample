@@ -95,6 +95,12 @@ Route::middleware('auth')->group(function() {
 
     Route::prefix('evaluation')->group(function() {
       Route::get('/', [Teacher\EvaluationController::class,'index']);
+      Route::get('/history', function() {
+        return view('teacher/evaluation-history');
+      });
+      Route::get('/print', function() {
+        return view('teacher/report-preview');
+      });
       Route::post('/store', [Teacher\EvaluationController::class,'store']);
     });
 
@@ -103,6 +109,10 @@ Route::middleware('auth')->group(function() {
   Route::prefix('head')->group(function() {
     Route::get('/', function() {
       return redirect('head/evaluation');
+    });
+
+    Route::get('/detail-proyek/{id}', function($id) {
+      return view('head/induck-detail-proyek', compact('id'));
     });
 
     Route::prefix('evaluation')->group(function() {

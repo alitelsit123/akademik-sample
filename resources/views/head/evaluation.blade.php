@@ -74,6 +74,7 @@
           <td>{{$school->semester}}</td>
           <td>
             @if ($evaluationCompleted && $evaluationSubmitted == null)
+            <a href="{{url('/head/detail-proyek/'.$row->id)}}" class="btn btn-xs btn-success" target="_blank">Laporan Proyek</a>
             <button type="button" class="btn btn-success btn-xs btn-submit" data-id="{{$row->id}}" data-url="{{url('/head/evaluation/submit_rapor/'.$row->id)}}">Submit Raport</button>
             <button type="button" data-toggle="modal" data-target="#input-evaluation-{{$row->id}}" class="btn btn-primary btn-xs">Review Raport</button>
             <div class="modal" id="input-evaluation-{{$row->id}}" tabindex="-1" role="dialog">

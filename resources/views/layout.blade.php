@@ -251,6 +251,14 @@
                 </p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="{{url('teacher/evaluation/history')}}" class="nav-link">
+                <i class="nav-icon fas fa-pen-square"></i>
+                <p>
+                  Cetak Nilai
+                </p>
+              </a>
+            </li>
             @endif
 
             @if (auth()->user()->level == 'head_class')

@@ -13,6 +13,9 @@ class EvaluationController extends Controller
     public function index() {
         return view('teacher.evaluation');
     }
+    public function indexHistory() {
+      return view('teacher.evaluation-history');
+  }
     public function store() {
         $mapels = auth()->user()->classMapels;
         $user = User::findOrFail(request('id'));
