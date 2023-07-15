@@ -21,4 +21,7 @@ class SchoolController extends Controller
       $school->save();
       return back()->with(['message' => 'Sekolah diubah.']);
     }
+    public function sInduck() {
+      return view('admin.s-induck');
+    }
 }

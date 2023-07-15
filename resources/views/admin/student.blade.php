@@ -98,6 +98,7 @@
           <td>{{$row->getInformation('personalInformation','level')}}</td>
           <td>{{$row->getInformation('residenceInformation','address')}}</td>
           <td>
+            <a href="{{url('admin/s-induck')}}?id={{$row->id}}" class="btn btn-xs btn-info" target="_blank">Lihat</a>
             <button type="button" data-toggle="modal" data-target="#update-student-{{$row->id}}" class="btn btn-warning btn-xs">Edit Siswa</button>
             <div class="modal fade" id="update-student-{{$row->id}}" tabindex="-1" role="dialog">
               <div class="modal-dialog" role="document">

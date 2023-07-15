@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function() {
 
   Route::prefix('admin')->group(function() {
     Route::get('/', [Admin\SchoolController::class,'index']);
+    Route::get('s-induck', [Admin\SchoolController::class,'sInduck']);
 
     Route::prefix('student')->group(function() {
         Route::get('/', [Admin\StudentController::class,'index']);
