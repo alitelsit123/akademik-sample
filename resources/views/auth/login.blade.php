@@ -47,7 +47,15 @@
             <strong>Error</strong> Username / Password Salah
           </div>
           @endif
+          @if(session()->has('message'))
+          <div class="alert alert-success">
+            <strong>Informasi</strong> <?= session('message') ?>
+          </div>
+					@endif
           <div class="row">
+            <div class="col-12 mb-3">
+              <a href="{{url('forgot-password')}}">Lupa Password ?</a>
+            </div>
             <div class="col-12">
               <button type="submit" class="btn btn-primary btn-block">Login</button>
             </div>

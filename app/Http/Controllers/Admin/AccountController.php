@@ -21,13 +21,14 @@ class AccountController extends Controller
 
         $user = User::whereEmail(request('email'))->whereLevel(request('level'))->first();
         if ($user) {
-            return back()->with(['error' => 'Akun dengan email '.request('email').' sudah terdaftar.']);
-        }
-        $user = User::create([
+            // return back()->with(['error' => 'Akun dengan email '.request('email').' sudah terdaftar.']);
+        } else {
+          $user = User::create([
             'email' => request('email'),
             'password' => \Hash::make(request('password')),
             'level' => request('level')
-        ]);
+          ]);
+        }
         // PERSONAL INFORMATION
         $user->personalInformation()->delete();
         $personalInformation = $user->personalInformation()->create(['name' => request('name')]);
@@ -46,6 +47,7 @@ class AccountController extends Controller
         }
         $residenceInformation->save();
 
+        \Illuminate\Support\Facades\Mail::to($user)->send(new \App\Mail\AccountCreated($user,request('password')));
 
         return back()->with(['message' => 'Berhasil Tambah Akun.']);
     }
