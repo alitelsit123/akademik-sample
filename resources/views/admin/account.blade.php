@@ -135,9 +135,9 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($accounts as $row)
+        @foreach ($accounts as $key=>$row)
         <tr>
-          <th scope="row">AC0{{$row->id}}</th>
+          <th scope="row">{{$key+ $accounts->firstItem()}}</th>
           <td>{{$row->getInformation('personalInformation','name')}}</td>
           <td>{{$row->email}}</td>
           <td>
