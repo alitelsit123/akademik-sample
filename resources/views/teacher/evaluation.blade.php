@@ -64,12 +64,13 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($students as $row)
+        @foreach ($students as $key=>$row)
         @php
         $myMapelsOnCurrentClass = auth()->user()->classMapels()->wherePivot('class_id', $row->getInformation('studentInformation', 'class_id'))->get();
         @endphp
         <tr>
-          <th scope="row">#</th>
+          <th scope="row">{{$key+ $students->firstItem()}}</th>
+
           <td>{{$row->getInformation('personalInformation','name')}}</td>
           <td>{{$row->getInformation('studentInformation','class') ? $row->getInformation('studentInformation','class')->name: ''}}</td>
           <td>{{$row->getInformation('personalInformation','nisn')}}</td>

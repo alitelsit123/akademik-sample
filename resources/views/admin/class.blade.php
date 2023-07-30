@@ -99,9 +99,9 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($classes as $row)
+        @foreach ($classes as $key => $row)
         <tr>
-          <th scope="row">#</th>
+          <th scope="row">{{$key+ $classes->firstItem()}}</th>
           <td>{{$row->name}}</td>
           <td>{{$row->headClass ? $row->headClass->getInformation('personalInformation','name'): ''}}</td>
           <td>

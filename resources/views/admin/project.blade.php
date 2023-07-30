@@ -88,11 +88,11 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($projects as $row)
+        @foreach ($projects as $key=>$row)
         @php
         @endphp
         <tr>
-          <th scope="row">#</th>
+          <th scope="row">{{$key+ $projects->firstItem()}}</th>
           <td>{{$row->name}}</td>
           <td>
             <a href="#edit-mapel-{{$row->id}}" data-toggle="modal" class="btn btn-xs btn-warning">Edit</a>

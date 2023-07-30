@@ -89,7 +89,7 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($mapels as $row)
+        @foreach ($mapels as $key=>$row)
         @php
         $teachers = \App\Models\User::whereLevel('teacher')->whereDoesntHave('teaches', function($query) use ($row) {
             $query->whereIn('mapels.id', [$row->id]);
@@ -97,7 +97,7 @@
         // dd($teacher_ids);
         @endphp
         <tr>
-          <th scope="row">#</th>
+          <th scope="row">{{$key+ $mapels->firstItem()}}</th>
           <td>{{$row->name}}</td>
           <td>
             @foreach ($row->teachers as $key => $rowTeacher)

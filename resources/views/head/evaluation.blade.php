@@ -59,15 +59,14 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($students as $row)
+        @foreach ($students as $key=>$row)
         @php
-        $key = 0;
         $totalMapel = \App\Models\Mapel::count();
         $evaluationCompleted = ($row->studentEvaluationsCurrentSession()->count() >= $totalMapel);
         $evaluationSubmitted = ($row->raportSessions()->whereSemester($school->semester)->whereSchool_year($school->school_year_from.'/'.$school->school_year_to)->first() ? true: false);
         @endphp
         <tr class="@if(!$evaluationCompleted) table-danger @elseif($evaluationSubmitted) table-success @else @endif">
-          <th scope="row">#</th>
+          <th scope="row">{{$key+ $students->firstItem()}}</th>
           <td>{{$row->getInformation('personalInformation','name')}}</td>
           <td>{{$row->getInformation('studentInformation','class') ? $row->getInformation('studentInformation','class')->name: ''}}</td>
           <td>{{$school->school_year_from.'/'.$school->school_year_to}}</td>

@@ -64,12 +64,12 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($students as $row)
+        @foreach ($students as $key=>$row)
         @php
         $key = 0;
         @endphp
         <tr class="">
-          <th scope="row">#</th>
+          <th scope="row">{{$key+ $students->firstItem()}}</th>
           <td>{{$row->getInformation('personalInformation','name')}}</td>
           <td>{{$row->getInformation('studentInformation','class') ? $row->getInformation('studentInformation','class')->name: ''}}</td>
           <td>{{$school->school_year_from.'/'.$school->school_year_to}}</td>

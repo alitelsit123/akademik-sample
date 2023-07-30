@@ -64,9 +64,8 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($students as $row)
+        @foreach ($students as $key=>$row)
         @php
-        $key = 0;
         $totalMapel = \App\Models\Mapel::count();
         $evaluationCurrentSeesion = $row->studentEvaluationsCurrentSession->count();
         $evaluationUnfinish = ($evaluationCurrentSeesion < $totalMapel && $evaluationCurrentSeesion > 0);
@@ -74,7 +73,8 @@
         $evaluationSubmitted = $row->raportSessions->first();
         @endphp
         <tr class="@if(!$evaluationCompleted) table-danger @elseif($evaluationSubmitted) table-success @else table-warning @endif">
-          <th scope="row">#</th>
+          <th scope="row">{{$key+ $students->firstItem()}}</th>
+
           <td>{{$row->getInformation('personalInformation','name')}}</td>
           <td>{{$row->getInformation('studentInformation','class') ? $row->getInformation('studentInformation','class')->name: ''}}</td>
           <td>{{$school->school_year_from.'/'.$school->school_year_to}}</td>
