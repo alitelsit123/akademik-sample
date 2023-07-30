@@ -65,9 +65,6 @@
       </thead>
       <tbody>
         @foreach ($students as $key=>$row)
-        @php
-        $key = 0;
-        @endphp
         <tr class="">
           <th scope="row">{{$key+ $students->firstItem()}}</th>
           <td>{{$row->getInformation('personalInformation','name')}}</td>
