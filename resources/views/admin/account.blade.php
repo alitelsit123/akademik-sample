@@ -137,7 +137,7 @@
       <tbody>
         @foreach ($accounts as $row)
         <tr>
-          <th scope="row">#</th>
+          <th scope="row">AC0{{$row->id}}</th>
           <td>{{$row->getInformation('personalInformation','name')}}</td>
           <td>{{$row->email}}</td>
           <td>
